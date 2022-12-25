@@ -120,3 +120,8 @@ RUN apt-get update \
 https://docs.docker.jp/engine/reference/run.html#d
 CMD ["nginx", "-g", "daemon off;"]
 ```
+
+メモ:Dockerfileを変更しても反映されないことがある。
+laravelとかだと、定期的にキャッシュクリアしないといけない。
+ので「キャッシュ」が関係しているかもしれない。
+$ docker-compose up -d
