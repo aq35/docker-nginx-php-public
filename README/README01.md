@@ -191,4 +191,4 @@ ENTRYPOINT ["start-container"]
 
 03.徒然なるままに
 phpの拡張機能とか、composer、npm辺りは、local開発環境でセットアップする際に馴染みがある
-FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT ここら辺とかパターン
+FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT ここら辺とかパターンな気がする。
