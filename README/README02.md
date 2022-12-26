@@ -1,8 +1,8 @@
 ## 02 Ubuntuを立ててみる。
 
-04.徒然なるままに
-Laravel SailのDockerfileの中身を調べてみる。
-ある程度、学んだら、Nigixを立ててみよう。
+04.徒然なるままに<br>
+Laravel SailのDockerfileの中身を調べてみる。<br>
+ある程度、学んだら、Nigixを立ててみよう。<br>
 
 ```
 FROM ubuntu:22.04
@@ -96,23 +96,23 @@ networks:
 ```
 
 $ docker-compose up -d
+<br>
+以下で失敗した。<br>
+RUN groupadd --force -g $WWWGROUP sail<br>
+RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail<br>
+グループを追加、ユーザを追加<br>
+<br>
+./vendor/laravel/sail/src/Console/InstallCommand.php<br>
+$environment .= "\nWWWGROUP=1000";<br>
+$environment .= "\nWWWUSER=1000\n";<br>
 
-以下で失敗した。
-RUN groupadd --force -g $WWWGROUP sail
-RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
-グループを追加、ユーザを追加
+groupadd --force -g <Group-ID> sail<br>
+Sailの権限戦略は、sailコンテナでは、数字のIDでローカルユーザーをグループ、ユーザーにマッピングするようだ<br>
 
-./vendor/laravel/sail/src/Console/InstallCommand.php
-$environment .= "\nWWWGROUP=1000";
-$environment .= "\nWWWUSER=1000\n";
-
-groupadd --force -g <Group-ID> sail
-Sailの権限戦略は、sailコンテナでは、数字のIDでローカルユーザーをグループ、ユーザーにマッピングするようだ
-
-再度、以下でコンテナ作成
-$ docker-compose up -d
-localhost:80をブラウザを叩いても、表示されないのは...WEBサーバーが起動してないから.
-「nginx」を入れてみようと思う。
+再度、以下でコンテナ作成<br>
+$ docker-compose up -d<br>
+localhost:80をブラウザを叩いても、表示されないのは...WEBサーバーが起動してないから.<br>
+「nginx」を入れてみようと思う。<br>
 ```
 RUN apt-get update \
     && apt-get install -y -q nginx
@@ -122,13 +122,13 @@ https://docs.docker.jp/engine/reference/run.html#d
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-メモ:Dockerfileを変更しても反映されないことがある。
-laravelとかだと、定期的にキャッシュクリアしないといけない。
-ので「キャッシュ」が関係しているかもしれない。
-imageを削除したら、追加したコマンドも実行された
+メモ:Dockerfileを変更しても反映されないことがある。<br>
+laravelとかだと、定期的にキャッシュクリアしないといけない。<br>
+ので「キャッシュ」が関係しているかもしれない。<br>
+imageを削除したら、追加したコマンドも実行された<br>
 
 $ docker-compose up -d
 
-localhost:80をブラウザを叩いたら、index.htmlが返ってきた。
-次は、Nigixのconf系を操作して、php-fpmを実行したい。
-Nigixは何となく、苦手意識があるので、克服したい。
+localhost:80をブラウザを叩いたら、index.htmlが返ってきた。<br>
+次は、Nigixのconf系を操作して、php-fpmを実行したい。<br>
+Nigixは何となく、苦手意識があるので、克服したい。<br>
