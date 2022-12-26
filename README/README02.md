@@ -144,4 +144,4 @@ $ docker-compose up -d
 localhost:80をブラウザを叩いたら、index.htmlが返ってきた。<br>
 静的ファイルを返すまではOKのようだ。<br>
 次は、Nginxの.conf系を編集して、php-fpmを実行したい。<br>
-Nginxは何となく、苦手意識があるので、今回を通じて克服したい。<br>
+Nginxの設定はApacheと比べると、苦手意識があるので、今回を通じて克服したい。<br>
