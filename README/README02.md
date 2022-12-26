@@ -1,7 +1,7 @@
 ## 02 Ubuntuを立ててみる。
 
 04.徒然なるままに
-Dockerfileの中身を調べてみる。
+Laravel SailのDockerfileの中身を調べてみる。
 
 ```
 FROM ubuntu:22.04
