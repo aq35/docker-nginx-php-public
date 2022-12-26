@@ -2,7 +2,7 @@
 
 04.徒然なるままに<br>
 Laravel SailのDockerfileの中身を調べてみる。<br>
-ある程度、学んだら、Nigixを立ててみよう。<br>
+ある程度、学んだら、Nginxを入れてみる。<br>
 
 ```
 FROM ubuntu:22.04
@@ -11,13 +11,17 @@ LABEL maintainer="適当"
 
 ARG Dockerの変数
 
-WORKDIR /var/www/html コンテナ内の作業場所
+WORKDIR /var/www/html 
+### コンテナ内の作業場所。laravelがhtml配下に生成される。
 
-ENV DEBIAN_FRONTEND noninteractive 入力待ちをブロックしなくなる変数
-ENV TZ=Asia/Tokyo タイムゾーンらしき変数 
+ENV DEBIAN_FRONTEND noninteractive 
+### コマンド入力待ちしなくなる変数のようだ。
+
+ENV TZ=Asia/Tokyo 
+### タイムゾーン変数 
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-タイムゾーンの設定
+### タイムゾーンの設定、タイムゾーン変数を利用している。
 
 RUN apt-get update \
     && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 dnsutils \
@@ -55,7 +59,7 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
-### ここら辺、laravel環境をセットアップするっぽい
+### ここら辺、laravel/sailがシェルスクリプトを実行する。
 COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
@@ -63,8 +67,18 @@ RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8000
 
-ENTRYPOINT ["start-container"]
+ENTRYPOINT ["start-container"]　
+
 ```
+
+05.徒然なるままに<br>
+docker-compose.ymlを整理してみる。<br>
+<br>
+args:　WWWGROUP: '${WWWGROUP}'<br>
+これが、dockerfileに変数として渡されているようだ。<br>
+<br>
+
+WWWUSER: 'sail'は、多分数字が正しい気がする。
 
 ```
 version: '3'
@@ -75,7 +89,7 @@ services:
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: sail-8.1/app
+        image: #### sail-8.1/app　=> ubuntuのイメージを入れる。
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -95,24 +109,22 @@ networks:
         driver: bridge
 ```
 
-$ docker-compose up -d
+$ docker-compose up -d<br>
 <br>
-以下で失敗した。<br>
+以下の行で、失敗した。<br>
 RUN groupadd --force -g $WWWGROUP sail<br>
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail<br>
-グループを追加、ユーザを追加<br>
-<br>
-./vendor/laravel/sail/src/Console/InstallCommand.php<br>
-$environment .= "\nWWWGROUP=1000";<br>
-$environment .= "\nWWWUSER=1000\n";<br>
+グループを追加、ユーザを追加をするようだ。<br>
 
 groupadd --force -g <Group-ID> sail<br>
-Sailの権限戦略は、sailコンテナでは、数字のIDでローカルユーザーをグループ、ユーザーにマッピングするようだ<br>
+laravel/sailの権限戦略は、sailコンテナでは、数字のIDでローカルユーザーをグループ、ユーザーにマッピングするようだ<br>
 
 再度、以下でコンテナ作成<br>
 $ docker-compose up -d<br>
+エラーは出ていない。<br>
 localhost:80をブラウザを叩いても、表示されないのは...WEBサーバーが起動してないから.<br>
 「nginx」を入れてみようと思う。<br>
+<br>
 ```
 RUN apt-get update \
     && apt-get install -y -q nginx
@@ -121,8 +133,8 @@ RUN apt-get update \
 https://docs.docker.jp/engine/reference/run.html#d
 CMD ["nginx", "-g", "daemon off;"]
 ```
-
-メモ:Dockerfileを変更しても反映されないことがある。<br>
+<br>
+メモ:Dockerfileを変更しても変更内容が反映されないことがある。<br>
 laravelとかだと、定期的にキャッシュクリアしないといけない。<br>
 ので「キャッシュ」が関係しているかもしれない。<br>
 imageを削除したら、追加したコマンドも実行された<br>
@@ -130,5 +142,6 @@ imageを削除したら、追加したコマンドも実行された<br>
 $ docker-compose up -d
 
 localhost:80をブラウザを叩いたら、index.htmlが返ってきた。<br>
-次は、Nigixのconf系を操作して、php-fpmを実行したい。<br>
-Nigixは何となく、苦手意識があるので、克服したい。<br>
+静的ファイルを返すまではOKのようだ。<br>
+次は、Nginxの.conf系を編集して、php-fpmを実行したい。<br>
+Nginxは何となく、苦手意識があるので、今回を通じて克服したい。<br>
