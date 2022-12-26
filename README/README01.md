@@ -192,8 +192,8 @@ ENTRYPOINT ["start-container"]
 ```
 
 03.徒然なるままに<br>
-ここまでの感想
-Dockerfileが難しく感じる。
+ここまでの感想<br>
+Dockerfileが難しく感じる。<br>
 phpの拡張機能とか、composer、npm辺りは、local開発環境でセットアップする際に馴染みがある。<br>
 FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT <br>
 ここら辺の表現はパターンな気がする。<br>
