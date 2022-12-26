@@ -129,7 +129,7 @@ localhost:80をブラウザを叩いても、表示されないのは...WEBサ�
 RUN apt-get update \
     && apt-get install -y -q nginx
 
-最後に"daemon off;"をする。公式に書いてあった。
+最後に"daemon off;"をすれば良いと、Dockerの公式に書いてあった。
 https://docs.docker.jp/engine/reference/run.html#d
 CMD ["nginx", "-g", "daemon off;"]
 ```
