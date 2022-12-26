@@ -36,8 +36,10 @@ webと、redisの二つのサービスが立ち上がる<br>
 02.徒然なるままに<br>
 docker-composeで複数のサービスを定義してビルドできることがわかった。<br>
 分からないことが多すぎるが、今は深く考えない<br>
+今回を通して、開発環境のDockerがちゃんと動いていることは保証できそうだ。
 
-次はどこへ。偉大なるlaravel/sailを使ってDockerを学習したい。<br>
+次はどこへ。<br>
+偉大なるlaravel/sailを使ってDockerを学習したい。<br>
 
 ## Laravel/Sail
 https://github.com/laravel/sail
