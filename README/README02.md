@@ -2,6 +2,7 @@
 
 04.徒然なるままに
 Laravel SailのDockerfileの中身を調べてみる。
+ある程度、学んだら、Nigixを立ててみよう。
 
 ```
 FROM ubuntu:22.04
@@ -129,5 +130,5 @@ imageを削除したら、追加したコマンドも実行された
 $ docker-compose up -d
 
 localhost:80をブラウザを叩いたら、index.htmlが返ってきた。
-達成感+1; Docker環境でWEBサーバーを立ち上げることができた。ちょっと用語がわかった。
-自信の喪失-1; わからない用語が増えた。
+次は、Nigixのconf系を操作して、php-fpmを実行したい。
+Nigixは何となく、苦手意識があるので、克服したい。
