@@ -1,8 +1,9 @@
 ## 01 Docker Compose を学ぶ
 
-01.徒然なるままに
-[「Laravel Sail」](https://laravel.com/docs/9.x/sail)で、Docker環境を初めて触っててからいくらか時間が経った。
-Dockerとは、開発環境を作ってくれるものだ。MAMPとかと違って、Docker関係の設定を皆が共有できるため、エンジニアのローカル環境の違いによる問題を減らしてくれる。PHPのバージョンが微妙に違って、実行結果が微妙に異なるトラブルとか。
+01.徒然なるままに<br>
+[「Laravel Sail」](https://laravel.com/docs/9.x/sail)で、Docker環境を初めて触っててからいくらか時間が経った。<br>
+Dockerとは、開発環境を作ってくれるものだ。MAMPとかと違って、Docker関係の設定を皆が共有できるため、エンジニアのローカル環境の違いによる問題を減らしてくれる。<br>
+PHPのバージョンが微妙に違って、実行結果が微妙に異なるトラブルとか。<br>
 
 そろそろ、自力で開発環境を構築してみてもいいかもしれない。
 
@@ -25,16 +26,16 @@ services:
     image: "redis:alpine"
 ```
 
-2.Compose でアプリをビルドして実行する
-$ docker compose up
+2.Compose でアプリをビルドして実行する<br>
+$ docker compose up<br>
 
-webと、redisの二つのサービスが立ち上がる
+webと、redisの二つのサービスが立ち上がる<br>
 
-02.徒然なるままに
-docker-composeで複数のサービスを定義してビルドできることがわかった。
-分からないことが多すぎるが、深く考えないことにする。
+02.徒然なるままに<br>
+docker-composeで複数のサービスを定義してビルドできることがわかった。<br>
+分からないことが多すぎるが、深く考えないことにする。<br>
 
-次はどこへ。偉大なるlaravel/sailへ
+次はどこへ。偉大なるlaravel/sailへ<br>
 
 ## Laravel/Sail
 https://github.com/laravel/sail
@@ -63,12 +64,12 @@ MariaDB
             timeout: 5s
 ```
 
-ports:
-FORWARD_DB_PORT ホストにHTTPリクエストしたら、コンテナにHTTPリクエストが渡る。
+ports:<br>
+FORWARD_DB_PORT ホストにHTTPリクエストしたら、コンテナにHTTPリクエストが渡る。<br>
 - '${FORWARD_DB_PORT:-3306}:3306'
   
-volumes:
-ホスト・コンテナ間でのファイル共有ができる。
+volumes:<br>
+ホスト・コンテナ間でのファイル共有ができる。<br>
 ホスト側のパス:コンテナ側のパス。ホスト側でファイル操作した時、コンテナのソースが同期されてたのは、volumesのおかげ。
 
 ```
@@ -80,8 +81,8 @@ volumes:
         networks:
             - sail
 ```
-1025:MAILHOGが実際にメールを待ち受けている
-8025:WEBサービスでMAILHOGの管理画面
+1025:MAILHOGが実際にメールを待ち受けている<br>
+8025:WEBサービスでMAILHOGの管理画面<br>
 
 ```    
 # For more information: https://laravel.com/docs/sail
@@ -189,6 +190,6 @@ EXPOSE 8000
 ENTRYPOINT ["start-container"]
 ```
 
-03.徒然なるままに
-phpの拡張機能とか、composer、npm辺りは、local開発環境でセットアップする際に馴染みがある
-FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT ここら辺とかパターンな気がする。
+03.徒然なるままに<br>
+phpの拡張機能とか、composer、npm辺りは、local開発環境でセットアップする際に馴染みがある<br>
+FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT ここら辺とかパターンな気がする。<br>
