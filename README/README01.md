@@ -11,7 +11,6 @@ PHPのバージョンが微妙に違って、実行結果が微妙に異なる�
 ## Docker Compose を試す
 https://docs.docker.com/compose/gettingstarted/
 
-
 1.Compose ファイルでサービスを定義する
 
 docker-compose.yml
@@ -33,9 +32,9 @@ webと、redisの二つのサービスが立ち上がる<br>
 
 02.徒然なるままに<br>
 docker-composeで複数のサービスを定義してビルドできることがわかった。<br>
-分からないことが多すぎるが、深く考えないことにする。<br>
+分からないことが多すぎるが、今は深く考えない<br>
 
-次はどこへ。偉大なるlaravel/sailへ<br>
+次はどこへ。偉大なるlaravel/sailを使ってDockerを学習したい。<br>
 
 ## Laravel/Sail
 https://github.com/laravel/sail
@@ -81,6 +80,7 @@ volumes:<br>
         networks:
             - sail
 ```
+メモ<br>
 1025:MAILHOGが実際にメールを待ち受けている<br>
 8025:WEBサービスでMAILHOGの管理画面<br>
 
@@ -191,5 +191,8 @@ ENTRYPOINT ["start-container"]
 ```
 
 03.徒然なるままに<br>
-phpの拡張機能とか、composer、npm辺りは、local開発環境でセットアップする際に馴染みがある<br>
-FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT ここら辺とかパターンな気がする。<br>
+ここまでの感想
+Dockerfileが難しく感じる。
+phpの拡張機能とか、composer、npm辺りは、local開発環境でセットアップする際に馴染みがある。<br>
+FROM,LABEL,ARG,ENV,RUN,COPY,EXPOSE,ENTRYPOINT <br>
+ここら辺の表現はパターンな気がする。<br>
