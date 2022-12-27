@@ -10,17 +10,22 @@ services:
             - php
         volumes:
             - ./contents:/usr/share/nginx/html
+        networks:
+            - sail
     php:
-        image: php:8-fpm
+        image: php:8.2-fpm
         build:
             context: ./docker/php/
             dockerfile: ./Dockerfile
         volumes:
-            - ./    :/usr/share/nginx/html
+            - ./contents:/usr/share/nginx/html
+        networks:
+            - sail
     db:
         build:
             context: ./docker/db/
             dockerfile: ./Dockerfile
+        image: 'mariadb:10'
         ports:
             - 3306:3306
         environment:
@@ -29,7 +34,18 @@ services:
             MYSQL_PASSWORD: password
             MYSQL_ROOT_PASSWORD: password
             TZ: 'Asia/Tokyo'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - mysql-volume:/var/lib/mysql       
+            - mysql-volume:/var/lib/mysql      
+        networks:
+            - sail
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            retries: 3
+            timeout: 5s
 volumes:
     mysql-volume:
+
+networks:
+  sail:
+    driver: bridge
