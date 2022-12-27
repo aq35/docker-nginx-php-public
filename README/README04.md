@@ -7,5 +7,5 @@ mysql -u user -p database
 > password
 
 contentsにlaravelを使って、User::findが叩けるように
-以下が出力されてたので、OKそう。
+以下が出力されてたので、DB接続自体は、OKそう。
 SQLSTATE[42S02]: Base table or view not found: 1146 Table 'database.users'
