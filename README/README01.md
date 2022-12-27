@@ -27,3 +27,6 @@ docker-compose exec php bash
 cd laravel
 php artisan migrate
 php artisan db:seed
+
+##　NPMビルドはローカルでやる
+ビルド結果をプッシュする。
