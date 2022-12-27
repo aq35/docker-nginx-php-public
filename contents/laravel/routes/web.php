@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +14,5 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    dd(User::first());
     return view('welcome');
 });
