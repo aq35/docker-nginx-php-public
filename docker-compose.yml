@@ -1,12 +1,19 @@
-version: "3"
+version: "3.9"
 services:
     nginx:
-        build: .
+        build:
+            context: ./docker/nginx/
+            dockerfile: ./Dockerfile
         ports:
-            - 8080:8080
+            - 80:8080
+        depends_on:
+            - php
         volumes:
             - ./contents:/usr/share/nginx/html
     php:
         image: php:8-fpm
+        build:
+            context: ./docker/php/
+            dockerfile: ./Dockerfile
         volumes:
-            - ./contents:/usr/share/nginx/html
+            - ./    :/usr/share/nginx/html
