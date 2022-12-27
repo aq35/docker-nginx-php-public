@@ -1,27 +1,12 @@
-version: '3'
+version: "3"
 services:
-    laravel.test:
-        build:
-            context: ./infra/docker
-            dockerfile: ./ubuntu/Dockerfile
-            args:
-                WWWGROUP: 1000
-        image: ubuntu:latest
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
+    nginx:
+        build: .
         ports:
-            - '80:80'
-            - '5173:5173'
-        environment:
-            WWWUSER: 'sail'
-            LARAVEL_SAIL: 1
+            - 8080:8080
         volumes:
-            - .:/var/www/html
-            - .:/usr/share/nginx/html/
-            - ./infra/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - ./infra/docker/php/php.ini:/usr/local/etc/php/php.ini
-        networks:
-            - sail
-networks:
-    sail:
-        driver: bridge
+            - ./contents:/usr/share/nginx/html
+    php:
+        image: php:8-fpm
+        volumes:
+            - ./contents:/usr/share/nginx/html
