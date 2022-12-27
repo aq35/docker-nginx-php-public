@@ -17,3 +17,19 @@ services:
             dockerfile: ./Dockerfile
         volumes:
             - ./    :/usr/share/nginx/html
+    db:
+        build:
+            context: ./docker/db/
+            dockerfile: ./Dockerfile
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: database
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
+            TZ: 'Asia/Tokyo'
+        volumes:
+            - mysql-volume:/var/lib/mysql       
+volumes:
+    mysql-volume:

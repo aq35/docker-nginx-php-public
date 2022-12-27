@@ -1,3 +1,4 @@
+php.ini
 zend.exception_ignore_args
 開発 は off、本番 は on
 有効にすると例外のスタックトレースに引数情報が出なくなる

@@ -27,3 +27,16 @@ docker compose up
 
 1,2,3はすでに作成されている場合はスキップされる
 depend_onが指定されているとcreateとstartの順番がコントロールされる
+
+
+  db:    
+    volumes:
+      - mysql-volume:/var/lib/mysql
+volumes:
+  mysql-volume:
+Volumeとは、コンテナを破棄してもデータを永続的に保存できるように、コンテナ外に提供されているデータの保存領域です。
+Dockerの管理下でホスト上にストレージ領域を確保しており、Linux なら /var/lib/docker/volumes/以下にあります。
+
+my.cnf
+これは結構適当なので必要に応じて変更した方がよいかもです。ローカル用なのでスロークエリとか出力していますが、
+本番等では設定入れないようにしましょう！
