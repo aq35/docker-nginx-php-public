@@ -78,36 +78,44 @@ Dockerfileに以下を追記
 COPY ./infra/docker/nginx/*.conf /etc/nginx/conf.d/
 ホスト側のnginx設定ファイルをコンテナ側にコピペする。
 
-nginxは、PHPをうごかすためには、cgiがプログラムを動かすように設定する
-
-PHP-FPMというのは、PHP-FastCGI Process Managerの略
-
-PHP-FPM(=FastCGIのインターフェース) → このプログラムを使って、PHPを動作をさせます
-
-nginx→php-fpmの通信はUnixドメインソケット通信です。
+fpmをバックグラウンドで実行すればOK
 
 # unix socket
 RUN mkdir /var/run/php-fpm
 VOLUME ["/var/run/php-fpm"]
 
+502 Bad Gateway...? why?
 
-502 Bad Gateway
-PHP-FPM is not running
-NGINX can’t communicate with PHP-FPM
-PHP-FPM is timing out
-
-コンテナに入る
+コンテナに入れる？
 docker-compose exec laravel.test bash ...OK
-phpを実行する
-php index.php ...OK
-php-fpmの設定ファイルが入っているか調べる
-/etc/php/8.2/cli
-/etc/php/8.2/fpm
-ディレクトリは、8.2だ。
 
-サービス起動時に、php8.2-fpm.serviceが起動されるか
+nginx は実行できる？
+service nginx status
+
+phpは実行できる？
+php index.php ...OK(echoが出力された)
+
+サービス起動時に、php8.2-fpm.serviceが起動される？
 systemctl list-unit-files --type=service | grep php
 php8.2-fpm.service                     enabled  enabled
 phpsessionclean.service                static   -
 
 directory index of "/var/www/html/" is forbidden
+
+【docker-compose】DockerのUbuntuにPHP-FPMをインストールして起動させたい
+https://teratail.com/questions/368979?sort=3
+
+UbuntuコンテナにPHP-FPMを入れる場合、もデーモンではなくフォアグラウンドで実行することがあるっぽい
+
+UbuntuにおいてPHP-FPMを立ち上げる通常の手順
+バックグラウンドのデーモンとして起動すること
+Dockerはメインプロセスが終了するとコンテナは終了
+バックグラウンドプロセスだけ起動するシェルスクリプトを実行しても、スクリプトを抜けると即座にコンテナは停止してしまいます。
+他のnginxやmysqlや公式のphp-fpmイメージの構造は、
+どれもデーモンではなくフォアグラウンドで実行することで、サーバーとして動作することができています。
+やはり自前であしらったイメージでPHP-FPMを起動する場合にも同様にフォアグラウンドで実行するコマンドを組み込む必要があります。
+
+一度、コンテナを入った後で、以下のコマンドしたらうまくいくか？フォアグランドで実行できるっぽい
+php-fpm8.2 -f
+
+うまくいった場合、php-fpm8.2 -f をDockerfileに入れる。
