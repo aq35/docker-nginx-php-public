@@ -20,3 +20,11 @@ php -v
 composer -v
 php -m インストール済の拡張機能の一覧
 cat /usr/local/etc/php/php.ini php.iniがコピー出来ているか確認
+
+
+##　php コンテナに入る
+docker-compose exec php bash
+cd laravel
+
+php artisan migrate
+php artisan db:seed
